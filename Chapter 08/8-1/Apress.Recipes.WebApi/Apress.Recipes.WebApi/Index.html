@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-theme.css" rel="stylesheet" />
+
+    <script src="Scripts/jquery-2.1.0.js"></script>
+    <script src="Scripts/knockout-3.1.0.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var vm = new Apress.Books();
+            ko.applyBindings(vm);
+            vm.loadBooks();
+        });
+
+        var Apress = Apress || {};
+        Apress.Books = function () {
+            var self = this;
+
+            self.books = ko.observableArray([]);
+
+            self.loadBooks = function () {
+                $.ajax("http://localhost:9000/books", {
+                        dataType: 'jsonp'
+                    })
+                    .done(function (data) {
+                        $.each(data, function (idx, item) {
+                            self.books.push(item);
+                        });
+                    })
+                    .fail(function (xhr, status, error) {
+                        alert(status);
+                    });
+            };
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <ul data-bind="foreach: books, visible: books().length > 0">
+            <li>
+                <h3 data-bind="text: Title"></h3>
+                <small data-bind="text: Author"></small>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

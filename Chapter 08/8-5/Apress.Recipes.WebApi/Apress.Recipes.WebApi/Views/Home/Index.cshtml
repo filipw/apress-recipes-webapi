@@ -1,0 +1,93 @@
+﻿<div class="row">
+    <div class="col-md-4">
+        <dl id="console" data-bind="template: {name: 'chatMessageTemplate', foreach: chatMessages, afterAdd: resizeChat}"></dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Username" data-bind="value: chatUsername">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <textarea class="form-control" rows="3" data-bind="value: newMessage.text"></textarea>
+        <button type="button" class="btn btn-primary" data-bind="click: send, enable: enabled()">Send</button>
+    </div>
+</div>
+
+
+        @section scripts {
+            <script type="text/html" id="chatMessageTemplate">
+                <dt><span data-bind="text: DateTime"></span> <span data-bind="text: Username"></span></dt>
+                <dd><em data-bind="text: Text"></em></dd>
+            </script>
+
+            <script type="text/javascript">
+                var ChatApp = ChatApp || {};
+
+                ChatApp.Model = function () {
+                    var self = this;
+                    self.chatMessages = ko.observableArray([]);
+                    self.chatUsername = ko.observable("");
+                    self.connected = ko.observable(false);
+                    self.enabled = ko.computed(function() {
+                        return self.connected() && self.chatUsername().length > 0;
+                    });
+
+                    self.newMessage = {
+                        username: ko.computed(function () {
+                            return self.chatUsername();
+                        }),
+                        text: ko.observable("")
+                    };
+
+                    self.resizeChat = function (el) {
+                        var chat = $(el).parent();
+                        chat.scrollTop(chat[0].scrollHeight);
+                    };
+
+                    self.send = function () {
+                        $.ajax({
+                            url: "http://localhost:1300/api/chat/",
+                            data: JSON.stringify({
+                                username: self.newMessage.username(),
+                                text: self.newMessage.text()
+                            }),
+                            cache: false,
+                            type: 'POST',
+                            dataType: "json",
+                            contentType: 'application/json; charset=utf-8'
+                        }).success(function () {
+                            self.newMessage.text("");
+                        });
+                    };
+                };
+
+                $(document).ready(function () {
+                    var viewModel = new ChatApp.Model();
+                    ko.applyBindings(viewModel);
+
+                    if (!!window.EventSource) {
+                        var source = new EventSource('http://localhost:1300/api/chat/');
+                        source.addEventListener('message', function (e) {
+                            if (e.data != "") {
+                                var json = JSON.parse(e.data);
+                                viewModel.chatMessages.push(json);
+                            }
+                        }, false);
+
+                        source.addEventListener('open', function (e) {
+                            console.log("open!");
+                            viewModel.connected(true);
+                        }, false);
+
+                        source.addEventListener('error', function (e) {
+                            //status code 2
+                            if (e.readyState == EventSource.CLOSED) {
+                                console.log("error!");
+                            }
+                        }, false);
+                    }
+                });
+            </script>
+        }

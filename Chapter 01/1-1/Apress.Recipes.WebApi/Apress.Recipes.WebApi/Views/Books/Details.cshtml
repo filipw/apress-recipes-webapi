@@ -1,0 +1,11 @@
+﻿@model Apress.Recipes.WebApi.Models.Book
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>@Model.Title</h1>
+    <p class="lead">@Model.Author</p>
+    <p><a class="btn btn-default" href="/api/books/@Model.Id">API link &raquo;</a></p>
+</div>

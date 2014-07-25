@@ -1,0 +1,77 @@
+﻿<div class="row">
+    <div class="col-md-4">
+        <dl id="console" data-bind="template: {name: 'chatMessageTemplate', foreach: chatMessages }"></dl>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Username" data-bind="value: chatUsername, enable: !connected()">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <textarea class="form-control" rows="3" data-bind="value: newMessage.text, enable: connected()"></textarea>
+        <button type="button" class="btn btn-primary" data-bind="click: send, enable: enabled()">Send</button>
+        <button type="button" class="btn btn-primary" data-bind="click: connect, visible: !connected(), enable: chatUsername().length">Connect</button>
+    </div>
+</div>
+
+<script type="text/html" id="chatMessageTemplate">
+    <dt><span data-bind="text: DateTime"></span> <span data-bind="text: Username"></span></dt>
+    <dd><em data-bind="text: Text"></em></dd>
+</script>
+
+@section scripts {
+    <script type="text/javascript">
+        var ChatApp = ChatApp || {};
+
+        ChatApp.Model = function() {
+
+            var self = this;
+            var socket;
+            self.chatMessages = ko.observableArray([]);
+            self.chatUsername = ko.observable("");
+
+            self.connected = ko.observable(false);
+            self.enabled = ko.computed(function() {
+                return self.connected() && self.chatUsername().length > 0;
+            });
+
+            self.newMessage = {
+                text: ko.observable("")
+            };
+
+            self.connect = function() {
+                var uri = "ws://localhost:4214/chat/" + self.chatUsername();
+                socket = new WebSocket(uri);
+
+                socket.onopen = function() {
+                    self.connected(true);
+                };
+
+                socket.onerror = function(event) {
+                    console.log("error! ");
+                    console.log(event);
+                };
+
+                socket.onmessage = function (event) {
+                    var parsed = JSON.parse(event.data);
+                    self.chatMessages.push(parsed);
+                };
+            };
+
+            self.send = function() {
+                var data = JSON.stringify({
+                    text: self.newMessage.text()
+                });
+                socket.send(data);
+                self.newMessage.text("");
+            };
+        };
+
+        $(document).ready(function() {
+            var viewModel = new ChatApp.Model();
+            ko.applyBindings(viewModel);
+        });
+    </script>
+}

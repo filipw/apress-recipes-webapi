@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceDefinition name="CloudProject" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2013-10.2.2">
+  <WorkerRole name="Apress.Recipes.WebApi" vmsize="Small">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <Endpoints>
+      <InputEndpoint name="Default" protocol="http" port="901" localPort="901" />
+    </Endpoints>
+  </WorkerRole>
+</ServiceDefinition>

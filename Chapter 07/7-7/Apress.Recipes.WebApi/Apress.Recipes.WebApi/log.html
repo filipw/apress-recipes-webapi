@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+
+
+    <ul id="messages"></ul>
+</body>
+
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>   
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.2.min.js"></script>
+<script type="text/javascript" src="http://localhost:9000/signalr/hubs"></script>
+
+<script type="text/javascript">
+    $(function () {
+        hub = $.connection.trace;
+        hub.client.logMessage = function (data) {
+            $('#messages').prepend('<li>' + data + '</li>');
+        };
+
+        $.connection.hub.start();
+    });
+</script>
+</html>

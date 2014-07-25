@@ -1,0 +1,19 @@
+﻿@using System.Security.Policy
+@model Apress.Recipes.WebApi.WebHost.Models.Items
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Item</title>
+</head>
+    <body>
+        @foreach (var item in Model.Collection)
+        {
+            <h1>@item.Id</h1>
+            <h2>@item.Name</h2>
+            <a href="/api/items/@item.Id">Link</a>
+        }
+    </body>
+</html>

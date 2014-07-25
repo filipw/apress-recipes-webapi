@@ -1,0 +1,26 @@
+﻿<#@ template language="VB" HostSpecific="True" #>
+<#@ output extension="vb" #>
+<#@ parameter type="System.String" name="AreaName" #>
+<#@ parameter type="System.String" name="AreaClassName" #>
+<#@ parameter type="System.String" name="Namespace" #>
+Imports System.Web.Mvc
+
+Namespace <#= Namespace #>
+    Public Class <#= AreaClassName #>
+        Inherits AreaRegistration
+
+        Public Overrides ReadOnly Property AreaName() As String
+            Get
+                Return "<#= AreaName #>"
+            End Get
+        End Property
+
+        Public Overrides Sub RegisterArea(ByVal context As AreaRegistrationContext)
+            context.MapRoute(
+                "<#= AreaName #>_default",
+                "<#= AreaName #>/{controller}/{action}/{id}",
+                New With {.action = "Index", .id = UrlParameter.Optional}
+            )
+        End Sub
+    End Class
+End Namespace
