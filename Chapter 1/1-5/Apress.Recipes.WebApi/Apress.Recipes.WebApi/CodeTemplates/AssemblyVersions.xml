@@ -1,5 +1,0 @@
-﻿<Assemblies>
-  <Assembly Id="System.Web.Mvc" Version="5.1.0.0" />
-  <Assembly Id="System.Web.Http" Version="5.1.0.0" />
-  <Assembly Id="System.Web.Http.OData" Version="5.1.0.0" />
-</Assemblies>
