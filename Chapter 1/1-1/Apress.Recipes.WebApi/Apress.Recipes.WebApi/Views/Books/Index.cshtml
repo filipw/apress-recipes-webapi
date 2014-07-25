@@ -1,0 +1,14 @@
+﻿@model System.Collections.Generic.List<Apress.Recipes.WebApi.Models.Book>
+
+@{
+    ViewBag.Title = "title";
+}
+
+
+<dl>
+    @foreach (var book in Model)
+    {
+        <dt>@book.Id. @book.Author</dt>
+        <dd>@Html.ActionLink(book.Title, "Details", "Books", new { id = book.Id }, null)</dd>
+    }
+</dl>

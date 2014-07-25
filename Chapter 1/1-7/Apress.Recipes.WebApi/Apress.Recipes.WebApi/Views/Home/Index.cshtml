@@ -1,0 +1,48 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <h2>Safe HTML form</h2>
+        <div>
+            <form id="form1" method="post" action="/api/form" enctype="application/x-www-form-urlencoded">
+                @Html.AntiForgeryToken()
+                <div>
+                    <label for="name">Name</label>
+                </div>
+                <div>
+                    <input type="text" name="name" value="Some Name" />
+                </div>
+                <div>
+                    <button id="postData" name="postData">Post form</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="jsData" class="col-md-6">
+        <h2>Safe AJAX</h2>
+        @Html.AntiForgeryToken()
+        <input id="itemJS" type="text" disabled="disabled" name="text" value="some text" />
+        <div>
+            <button id="postJS" name="postJS">Post JS</button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#postJS").on("click", function () {
+                $.ajax({
+                    dataType: "json",
+                    data: JSON.stringify({ name: $("#itemJS").val() }),
+                    type: "POST",
+                    headers: {
+                        "__RequestVerificationToken": $("#jsData input[name='__RequestVerificationToken']").val()
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    url: "/api/items"
+                }).done(function (res) {
+                    alert(res.Name);
+                });
+            });
+        });
+    </script>
+}

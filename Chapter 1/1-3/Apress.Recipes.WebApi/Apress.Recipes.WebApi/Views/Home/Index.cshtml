@@ -1,0 +1,56 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <h2>HTML form</h2>
+        <div>
+            <form role="form" method="post" action="/api/form" enctype="application/x-www-form-urlencoded">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" placeholder="Enter email">
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="female" checked>
+                        Female
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="gender" value="male">
+                        Male
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+        <div>
+            <button id="postJS" class="btn btn-default">Send with JS</button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function () {
+            $("#postJS").on("click", function () {
+                var data = {
+                        name: $("input[name='name']").val(),
+                        email: $("input[name='email']").val(),
+                        gender: $("input[name='gender']:checked").val(),
+                };
+                console.log(data);
+                $.ajax({
+                    data: data,
+                    datatype: "html",
+                    type: "POST",
+                    url: "/api/user"
+                }).done(function (res) {
+                    alert(res.Email + " " + res.Name + " " + res.Gender);
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,81 @@
+﻿@section scripts {
+    <script src="~/Scripts/jquery.signalR-2.0.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var vm = new Apress.Books();
+            var hub = $.connection.books;
+
+            hub.client.bookAdded = function (book) {
+                vm.addBook(book);
+            };
+
+            $.connection.hub.start();
+            
+            ko.applyBindings(vm);
+            vm.loadBooks();
+        });
+
+        var Apress = Apress || {};
+        Apress.Books = function() {
+            var self = this;
+
+            self.books = ko.observableArray([]);
+
+            self.newBook = {
+                Title: ko.observable(""),
+                Author: ko.observable("")
+            };
+
+            self.addBook = function (book) {
+                var existingBook = ko.utils.arrayFirst(this.books(), function (item) {
+                    return item.Id == book.Id;
+                });
+                if (!existingBook) {
+                    self.books.push(book);
+                }
+            };
+
+            self.loadBooks = function() {
+                $.ajax("http://localhost:35366/books")
+                    .done(function(data) {
+                        $.each(data, function(idx, item) {
+                            self.books.push(item);
+                        });
+                    })
+                    .fail(function(xhr, status, error) {
+                        alert(status);
+                    });
+            };
+
+            self.sendBook = function() {
+                $.ajax("http://localhost:35366/books", {
+                    type: "POST",
+                    contentType: "application/json",
+                    dataType: 'json',
+                    data: JSON.stringify({ Title: self.newBook.Title(), Author: self.newBook.Author() })
+                })
+                    .done(function(data) {
+                        self.books.push(data);
+                    })
+                    .fail(function(xhr, status, error) {
+                        alert(status);
+                    });
+            };
+        };
+    </script>
+}
+    <div class="container">
+        <ul data-bind="foreach: books, visible: books().length > 0">
+            <li>
+                <h3 data-bind="text: Title"></h3>
+                <small data-bind="text: Author"></small>
+            </li>
+        </ul>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Title" data-bind="value: newBook.Title" />
+            <input type="text" class="form-control" placeholder="Author" data-bind="value: newBook.Author" />
+            <button type="button" class="btn btn-default" data-bind="click: sendBook">Send</button>
+        </div>
+    </div>

@@ -1,0 +1,5 @@
+@model Apress.Recipes.WebApi.Areas.HelpPage.ByteSample
+
+<pre class="wrapped">
+    @string.Concat(Model.Bytes.Select(x => x.ToString("X2")));
+</pre>
