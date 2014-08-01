@@ -3,6 +3,11 @@ ASP.NET Web API 2: Recipes
 
 Samples from ASP.NET Web API 2: Recipes book.
 
+![Cover](http://www.apress.com/media/catalog/product/cache/9/image/9df78eab33525d08d6e5fb8d27136e95/A/9/A9781430259800-3d_1.png)
+
+ - [Amazon](http://www.amazon.com/ASP-NET-Web-API-Recipes-Problem-Solution/dp/1430259809/)
+ - [Apress website](http://www.apress.com/9781430259800)
+
 ## Chapter 1: Web API in ASP.NET
 
  - 1-1 Add ASP.NET Web API to an MVC Application
