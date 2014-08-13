@@ -16,21 +16,21 @@ namespace Apress.Recipes.WebApi
             {
                 var client = new HttpClient();
 
-                    var meesage = new HttpRequestMessage(HttpMethod.Get, address + "files");
-                    //var meesage = new HttpRequestMessage(HttpMethod.Get, address + "page.html/abc=abc");
-                    var response = client.SendAsync(meesage).Result;
-
+                    var message = new HttpRequestMessage(HttpMethod.Get, address + "files");
+                    var response = client.SendAsync(message).Result;
                     Console.WriteLine(response.Content.ReadAsStringAsync().Result);
 
-                    var meesage1 = new HttpRequestMessage(HttpMethod.Get, address + "test");
-                    var response1 = client.SendAsync(meesage1).Result;
+                    var message2 = new HttpRequestMessage(HttpMethod.Get, address + "page.html");
+                    var response2 = client.SendAsync(message2).Result;
+                    Console.WriteLine(response2.Content.ReadAsStringAsync().Result);
+
+                    var message1 = new HttpRequestMessage(HttpMethod.Get, address + "test");
+                    var response1 = client.SendAsync(message1).Result;
 
                     Console.WriteLine(response1.Content.ReadAsStringAsync().Result);
 
                     Console.ReadLine();
             }
-
-            
         } 
     }
 }
