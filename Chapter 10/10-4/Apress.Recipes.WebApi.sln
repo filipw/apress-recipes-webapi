@@ -1,13 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30324.0
+VisualStudioVersion = 12.0.30516.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apress.Recipes.WebApi.SelfHost", "Apress.Recipes.WebApi.SelfHost\Apress.Recipes.WebApi.SelfHost.csproj", "{EFC25F11-75B8-4498-8B80-01A781381FCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apress.Recipes.WebApi.OwinSelfHost", "Apress.Recipes.WebApi.OwinSelfHost\Apress.Recipes.WebApi.OwinSelfHost.csproj", "{74220441-0546-4FEF-ACD4-581AD9D6BD77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Apress.Recipes.WebApi.WebHost", "Apress.Recipes.WebApi.WebHost\Apress.Recipes.WebApi.WebHost.csproj", "{D100636C-9DE8-4550-9E6B-2C9B7B75E95C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{79A9BBBA-9819-4EE2-9D5E-8AFD6F865A29}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
