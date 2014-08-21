@@ -7,7 +7,7 @@ namespace Apress.Recipes.WebApi
     public class HappyItemsController : ApiController
     {
         [Route("")]
-        public IEnumerable<Item> Get()
+        public IEnumerable<Item> GetAll()
         {
             return new List<Item> { new Item { Id = 1, Name = "Filip" }, new Item { Id = 1, Name = "NotFilip" } };
         }

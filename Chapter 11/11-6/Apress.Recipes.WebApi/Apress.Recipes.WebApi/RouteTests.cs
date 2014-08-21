@@ -22,7 +22,7 @@ namespace Apress.Recipes.WebApi
             var routeTester = new RouteContext(_config, request);
 
             Assert.Equal(typeof(ItemsController), routeTester.ControllerType);
-            Assert.True(routeTester.VerifyMatchedAction(ReflectionHelpers.GetMethodInfo((ItemsController p) => p.Get())));
+            Assert.True(routeTester.VerifyMatchedAction(ReflectionHelpers.GetMethodInfo((ItemsController p) => p.GetAll())));
         }
 
         [Fact]
