@@ -23,7 +23,7 @@ namespace Apress.Recipes.WebApi
             ControllerType = descriptor.ControllerType;
 
             var actionSelector = new ApiControllerActionSelector();
-            _actionMappings = actionSelector.GetActionMapping(descriptor)[request.Method.ToString()];
+            _actionMappings = actionSelector.GetActionMapping(descriptor).SelectMany(x => x).Where(x => x.SupportedHttpMethods.Contains(request.Method));
         }
 
         public Type ControllerType { get; private set; }
