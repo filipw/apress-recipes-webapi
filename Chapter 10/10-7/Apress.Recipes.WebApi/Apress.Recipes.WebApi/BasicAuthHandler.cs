@@ -22,7 +22,7 @@ namespace Apress.Recipes.WebApi
                 var credentials =
                     Encoding.UTF8.GetString(Convert.FromBase64String(request.Headers.Authorization.Parameter));
                 var user = credentials.Split(':')[0].Trim();
-                var pwd = credentials.Split(':')[0].Trim();
+                var pwd = credentials.Split(':')[1].Trim();
                 //validate username and password here and set identified
 
                 if (user == "filip")
